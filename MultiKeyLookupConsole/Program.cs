@@ -41,7 +41,7 @@ namespace MultiKeyLookupConsole
             IEnumerable<DataClass> C3 = Indexed.Get("C", 3, f => f.C);
             Console.WriteLine($"C3 {string.Join(',', C3.Select(s => s.ToString()))}");
 
-            Indexed.Delete("B", 2);
+            Indexed.Remove("B", 2);
             Console.WriteLine($"B2 {string.Join(',', B2.Select(s => s.ToString()))}");
 
             Console.ReadLine();
