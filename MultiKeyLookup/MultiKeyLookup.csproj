@@ -2,6 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/cph0/multi-key-lookup</RepositoryUrl>
+    <Description>A data structure that allows indexing by multiple fields for fast data access.</Description>
+    <PackageTags>lookup index multi fast</PackageTags>
+    <Company />
+    <Authors>Christian Harrison</Authors>
+    <Copyright>Copyright (c) C Harrison 2021</Copyright>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>First release.</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DataStructure
+namespace MultiKeyLookup
 {
     public class MultiKeyLookup<T>
     {
