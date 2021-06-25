@@ -98,6 +98,12 @@ namespace DataStructure
                 return key != null && _Data.Values.Any(a => key(a).Equals(value));
         }
 
+        public bool TryGetValue(string field, object value, out T item, Func<T, object> key = null)
+        {
+            item = Get(field, value, key).SingleOrDefault();
+            return false;
+        }
+
         public IEnumerable<T> Get(string field, object value, Func<T, object> key = null)
         {
             if (_Indexes.TryGetValue(field, out Dictionary<object, HashSet<int>> Map))

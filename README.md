@@ -39,11 +39,12 @@ public void Get()
 new MultiKeyLookup(data, ...indexes); //data and indexes are optional
 Count; //the number of data entries
 Indexes; //the number of indexes
+Values; //gets an iterable of values
 AddIndex((field, key)); //indexes the data by another index
 RemoveIndex(field); //removes an index
-Values(); //gets an iterable of values
 Add(...data); //adds data
 ContainsKey(field, value, key); //does the data exist by field and value, key needed for no index
+TryGetValue(field, value, key); //gets the data by field and value, key needed for no index
 Get(field, value, key); //gets the data by field and value, key needed for no index
 Remove(field, value, key); //removes the data by field and value, key needed for no index
 ```
