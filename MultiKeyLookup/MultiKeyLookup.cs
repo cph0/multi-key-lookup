@@ -79,13 +79,12 @@ namespace MultiKeyLookup
 
                 foreach (KeyValuePair<string, Dictionary<object, HashSet<int>>> Index in _Indexes)
                 {
-                    if (_FieldMap.TryGetValue(Index.Key, out Func<T, object> key)
-                        && Index.Value.TryGetValue(key(Item), out HashSet<int> set))
+                    if (_FieldMap.TryGetValue(Index.Key, out Func<T, object> key))
                     {
-                        if (set != null)
+                        if (Index.Value.TryGetValue(key(Item), out HashSet<int> set))
                             set.Add(DataIndex);
                         else
-                            Index.Value[key(Item)] = new() { DataIndex };
+                            Index.Value.Add(key(Item), new() { DataIndex });
                     }
                 }
             }

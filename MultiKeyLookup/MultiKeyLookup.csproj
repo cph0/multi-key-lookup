@@ -11,9 +11,9 @@
     <Authors>Christian Harrison</Authors>
     <Copyright>Copyright (c) C Harrison 2021</Copyright>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>publish 1.0.1 parameter names, implement ienumerable, getvalueordefault, trygetvalue fix</PackageReleaseNotes>
+    <PackageReleaseNotes>publish 1.0.2 add fix</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
 </Project>
