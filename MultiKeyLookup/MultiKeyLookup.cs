@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace MultiKeyLookup
 {
-    public class MultiKeyLookup<T>
+    public class MultiKeyLookup<T> : IEnumerable<T>
     {
         private readonly Dictionary<int, T> _Data;
         private readonly Dictionary<string, Func<T, object>> _FieldMap;
@@ -27,17 +28,17 @@ namespace MultiKeyLookup
                 _FieldMap = indexes.ToDictionary(k => k.Item1, k => k.Item2);
                 _Indexes = indexes.ToDictionary(k => k.Item1, k => new Dictionary<object, HashSet<int>>());
             }
-            else 
+            else
             {
                 _FieldMap = new();
                 _Indexes = new();
             }
 
-            if (data != null && indexes != null) 
+            if (data != null && indexes != null)
             {
                 foreach ((string, Func<T, object>) Index in indexes)
-                    SetIndex(Index);            
-            }            
+                    SetIndex(Index);
+            }
         }
 
         private void SetIndex((string, Func<T, object>) index)
@@ -50,15 +51,15 @@ namespace MultiKeyLookup
                 _Indexes[index.Item1] = Map;
         }
 
-        public void AddIndex(string field, Func<T, object> key) 
+        public void AddIndex(string field, Func<T, object> fieldSelector)
         {
             if (!_Indexes.ContainsKey(field))
-                SetIndex((field, key));
+                SetIndex((field, fieldSelector));
         }
 
-        public void RemoveIndex(string field) 
+        public void RemoveIndex(string field)
         {
-            if (_Indexes.ContainsKey(field)) 
+            if (_Indexes.ContainsKey(field))
             {
                 _FieldMap.Remove(field);
                 _Indexes.Remove(field);
@@ -78,7 +79,7 @@ namespace MultiKeyLookup
 
                 foreach (KeyValuePair<string, Dictionary<object, HashSet<int>>> Index in _Indexes)
                 {
-                    if (_FieldMap.TryGetValue(Index.Key, out Func<T, object> key) 
+                    if (_FieldMap.TryGetValue(Index.Key, out Func<T, object> key)
                         && Index.Value.TryGetValue(key(Item), out HashSet<int> set))
                     {
                         if (set != null)
@@ -90,25 +91,28 @@ namespace MultiKeyLookup
             }
         }
 
-        public bool ContainsKey(string field, object value, Func<T, object> key = null)
+        public bool ContainsKey(string field, object key, Func<T, object> fieldSelector = null)
         {
             if (_Indexes.TryGetValue(field, out Dictionary<object, HashSet<int>> Map))
-                return Map != null && Map.ContainsKey(value);
+                return Map != null && Map.ContainsKey(key);
             else
-                return key != null && _Data.Values.Any(a => key(a).Equals(value));
+                return key != null && _Data.Values.Any(a => fieldSelector(a).Equals(key));
         }
 
-        public bool TryGetValue(string field, object value, out T item, Func<T, object> key = null)
+        public bool TryGetValue(string field, object key, out T item, Func<T, object> fieldSelector = null)
         {
-            item = Get(field, value, key).SingleOrDefault();
-            return false;
+            item = GetValueOrDefault(field, key, fieldSelector);
+            return item != null;
         }
 
-        public IEnumerable<T> Get(string field, object value, Func<T, object> key = null)
+        public T GetValueOrDefault(string field, object key, Func<T, object> fieldSelector = null)
+            => Get(field, key, fieldSelector).SingleOrDefault();
+
+        public IEnumerable<T> Get(string field, object key, Func<T, object> fieldSelector = null)
         {
             if (_Indexes.TryGetValue(field, out Dictionary<object, HashSet<int>> Map))
             {
-                if (Map != null && Map.TryGetValue(value, out HashSet<int> dataIndexes))
+                if (Map != null && Map.TryGetValue(key, out HashSet<int> dataIndexes))
                 {
                     List<T> Matches = new List<T>(dataIndexes.Count);
 
@@ -119,14 +123,14 @@ namespace MultiKeyLookup
                     }
                 }
             }
-            else if (key != null)
+            else if (fieldSelector != null)
             {
-                foreach (T data in _Data.Values.Where(w => key(w).Equals(value)))
+                foreach (T data in _Data.Values.Where(w => fieldSelector(w).Equals(key)))
                     yield return data;
             }
         }
 
-        private void DeleteData(IEnumerable<int> dataIndexes) 
+        private void DeleteData(IEnumerable<int> dataIndexes)
         {
             foreach (int DataIndex in dataIndexes)
             {
@@ -155,19 +159,28 @@ namespace MultiKeyLookup
             }
         }
 
-        public void Remove(string field, object value, Func<T, object> key = null)
+        public void Remove(string field, object key, Func<T, object> fieldSelector = null)
         {
             if (_Indexes.TryGetValue(field, out Dictionary<object, HashSet<int>> index))
             {
-                if (index.TryGetValue(value, out HashSet<int> dataIndexes))
+                if (index.TryGetValue(key, out HashSet<int> dataIndexes))
                     DeleteData(dataIndexes);
             }
-            else if (key != null)
+            else if (fieldSelector != null)
             {
-                IEnumerable<int> dataIndexes = _Data.Where(w => key(w.Value) == value).Select(s => s.Key);
+                IEnumerable<int> dataIndexes = _Data.Where(w => fieldSelector(w.Value) == key).Select(s => s.Key);
                 DeleteData(dataIndexes);
             }
         }
 
+        public IEnumerator<T> GetEnumerator()
+        {
+            return _Data.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable)_Data.Values).GetEnumerator();
+        }
     }
 }

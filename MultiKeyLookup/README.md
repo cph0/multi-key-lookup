@@ -40,11 +40,12 @@ new MultiKeyLookup(data, ...indexes); //data and indexes are optional
 Count; //the number of data entries
 Indexes; //the number of indexes
 Values; //gets an iterable of values
-AddIndex((field, key)); //indexes the data by another index
+AddIndex((field, fieldSelector)); //indexes the data by another index
 RemoveIndex(field); //removes an index
 Add(...data); //adds data
-ContainsKey(field, value, key); //does the data exist by field and value, key needed for no index
-TryGetValue(field, value, key); //gets the data by field and value, key needed for no index
-Get(field, value, key); //gets the data by field and value, key needed for no index
-Remove(field, value, key); //removes the data by field and value, key needed for no index
+ContainsKey(field, key, fieldSelector); //does the data exist by field and key, fieldSelector needed for no index
+TryGetValue(field, key, fieldSelector); //gets the data by field and key, fieldSelector needed for no index
+GetValueOrDefault(field, key, fieldSelector); //get a single value or default by field and key, fieldSelector needed for no index
+Get(field, key, fieldSelector); //gets the data by field and key, fieldSelector needed for no index
+Remove(field, key, fieldSelector); //removes the data by field and key, fieldSelector needed for no index
 ```
