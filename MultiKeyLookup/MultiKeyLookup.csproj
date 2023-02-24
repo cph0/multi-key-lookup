@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/cph0/multi-key-lookup</RepositoryUrl>
     <Title>MultiKeyLookup</Title>
     <Description>A data structure that allows indexing by multiple fields for fast data access.</Description>
@@ -11,9 +11,9 @@
     <Authors>Christian Harrison</Authors>
     <Copyright>Copyright (c) C Harrison 2021</Copyright>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>publish 1.0.2 add fix</PackageReleaseNotes>
+    <PackageReleaseNotes>publish 1.0.3 net7</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
   </PropertyGroup>
 
 </Project>
