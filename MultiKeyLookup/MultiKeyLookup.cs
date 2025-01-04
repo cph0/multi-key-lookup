@@ -172,13 +172,6 @@ public class MultiKeyLookup<T> : IEnumerable<T>
         }
     }
 
-    public IEnumerator<T> GetEnumerator()
-    {
-        return _Data.Values.GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return ((IEnumerable)_Data.Values).GetEnumerator();
-    }
+    public IEnumerator<T> GetEnumerator() => _Data.Values.GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
