@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
+    <nullable>enable</nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/cph0/multi-key-lookup</RepositoryUrl>
     <Title>MultiKeyLookup</Title>
@@ -9,11 +10,14 @@
     <PackageTags>lookup index multi fast</PackageTags>
     <Company />
     <Authors>Christian Harrison</Authors>
-    <Copyright>Copyright (c) C Harrison 2021</Copyright>
+    <Copyright>Copyright (c) C Harrison 2025</Copyright>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>publish 1.0.3 net7</PackageReleaseNotes>
+    <PackageReleaseNotes>publish 1.0.4 net9</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
-
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 </Project>
